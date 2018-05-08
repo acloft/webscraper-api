@@ -12,7 +12,7 @@ dotenv.config();
 const port = 9090;
 app.use(bodyParser.json());
 
-app.post("/", saveIngredientsFrom);
+app.post("/", saveIngredientsFromRecipe);
 
 mongo
   .connect(process.env.MONGO_URL)
@@ -23,7 +23,7 @@ mongo
     console.log(`Magic happens on port ${port}`);
   });
 
-function saveIngredientsFrom(req, res) {
+function saveIngredientsFromRecipe(req, res) {
   const options = {
     uri: req.body.recipe,
     transform: function(body) {
