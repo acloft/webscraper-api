@@ -20,12 +20,24 @@ function getIngredientsFrom(req, res) {
 
   rp(options)
     .then($ => {
-      let ingredients = [];
-      $("#g_ingredients li").each(function(index, element) {
-        if ($(this).text()) {
-          ingredients.push($(this).text());
-        }
+      let ingredients = {};
+      $("#g_ingredients .ingredient-group").each(function(index, element) {
+        let sectionName = $(this)
+          .find("[data-serverid='IngredientHeading']")
+          .text()
+          ? $(this)
+              .find("[data-serverid='IngredientHeading']")
+              .text()
+          : "ingredients";
+        ingredients[sectionName] = [];
+
+        $(this)
+          .find("li")
+          .each(function(index, element) {
+            ingredients[sectionName].push($(this).text());
+          });
       });
+
       res.status(200).json(ingredients);
     })
     .catch(err => {
